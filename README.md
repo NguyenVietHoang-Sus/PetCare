@@ -368,18 +368,37 @@ http://localhost:5000/api
 ### 🏠 Homepage
 *Modern landing page with service highlights*
 
+<img src="docs/screenshots/homepage.png" alt="Homepage" width="800"/>
+
+---
+
 ### 🛒 Shop Page
 *Product catalog with filtering and categories*
+
+<img src="docs/screenshots/shop_page.png" alt="Shop Page" width="800"/>
+
+---
 
 ### 📰 News Page
 *Pet care articles and tips*
 
+<img src="docs/screenshots/news_page.png" alt="News Page" width="800"/>
+
+---
+
 ### 👨‍💼 Admin Dashboard
 *Complete management interface*
 
-</div>
+<img src="docs/screenshots/admin_dashboard.png" alt="Admin Dashboard" width="800"/>
 
-> 📌 **Note:** Add your screenshots to `/docs/screenshots/` folder and update the paths above.
+---
+
+### 🎬 Demo Recording
+*Watch the app in action*
+
+<img src="docs/screenshots/demo_recording.webp" alt="Demo Recording" width="800"/>
+
+</div>
 
 <br/>
 
@@ -759,18 +778,37 @@ http://localhost:5000/api
 ### 🏠 Trang Chủ
 *Trang landing hiện đại với các dịch vụ nổi bật*
 
+<img src="docs/screenshots/homepage.png" alt="Trang Chủ" width="800"/>
+
+---
+
 ### 🛒 Trang Cửa Hàng
 *Danh mục sản phẩm với bộ lọc và phân loại*
+
+<img src="docs/screenshots/shop_page.png" alt="Trang Cửa Hàng" width="800"/>
+
+---
 
 ### 📰 Trang Tin Tức
 *Bài viết và mẹo chăm sóc thú cưng*
 
+<img src="docs/screenshots/news_page.png" alt="Trang Tin Tức" width="800"/>
+
+---
+
 ### 👨‍💼 Dashboard Quản Trị
 *Giao diện quản lý toàn diện*
 
-</div>
+<img src="docs/screenshots/admin_dashboard.png" alt="Dashboard Quản Trị" width="800"/>
 
-> 📌 **Lưu ý:** Thêm ảnh chụp màn hình của bạn vào thư mục `/docs/screenshots/` và cập nhật đường dẫn ở trên.
+---
+
+### 🎬 Video Demo
+*Xem ứng dụng hoạt động*
+
+<img src="docs/screenshots/demo_recording.webp" alt="Video Demo" width="800"/>
+
+</div>
 
 <br/>
 
