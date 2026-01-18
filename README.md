@@ -393,10 +393,6 @@ http://localhost:5000/api
 
 ---
 
-### 🎬 Demo Recording
-*Watch the app in action*
-
-<img src="docs/screenshots/demo_recording.webp" alt="Demo Recording" width="800"/>
 
 </div>
 
@@ -803,10 +799,6 @@ http://localhost:5000/api
 
 ---
 
-### 🎬 Video Demo
-*Xem ứng dụng hoạt động*
-
-<img src="docs/screenshots/demo_recording.webp" alt="Video Demo" width="800"/>
 
 </div>
 
