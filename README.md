@@ -708,7 +708,7 @@ npm run dev
 
 > 🟢 Frontend chạy tại: **http://localhost:5173**
 
-### 🎉 Tài Khoản Demo
+### 🎉 Tài Khoản Demo ( Tài khoản này không đúng, hãy chạy seed.js để biết chính xác )
 
 <div align="center">
 
