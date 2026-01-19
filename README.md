@@ -184,7 +184,7 @@
 | Software | Version | Download |
 |----------|---------|----------|
 | Node.js | ≥ 18.0.0 | [nodejs.org](https://nodejs.org/) |
-| MongoDB | ≥ 6.0 | [mongodb.com](https://www.mongodb.com/try/download/community) |
+| MongoDB | ≥ 6.0 | [mongodb.com](https://www.mongodb.com/try/download/community) or use [MongoDB Atlas](https://www.mongodb.com/atlas) (free cloud) |
 | Git | Latest | [git-scm.com](https://git-scm.com/) |
 
 ### Step 1️⃣ Clone Repository
@@ -203,27 +203,47 @@ cd backend
 # Install dependencies
 npm install
 
-# Create environment file
+# Create environment file (IMPORTANT!)
 cp .env.example .env
+```
 
-# Edit .env with your settings:
-# MONGO_URI=mongodb://localhost:27017/petcare
-# JWT_SECRET=your_super_secret_key_here
-# PORT=5000
+**⚠️ Configure `.env` file with these settings:**
 
-# Seed demo data
+```env
+# MongoDB Connection (choose one option)
+# Option 1: Local MongoDB
+MONGODB_URI=mongodb://localhost:27017/petcare
+
+# Option 2: MongoDB Atlas (recommended for beginners)
+# MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/petcare
+
+# JWT Configuration
+JWT_SECRET=your_super_secret_key_here_minimum_32_characters
+JWT_EXPIRE=30d
+
+# Server Port
+PORT=5000
+
+# Frontend URL (for CORS)
+FRONTEND_URL=http://localhost:5173
+```
+
+```bash
+# Seed demo data (creates sample users, products, pets, etc.)
 node seed.js
 
-# Start server (development)
+# Start server (development mode with auto-reload)
 npm run dev
 ```
 
 > 🟢 Backend runs at: **http://localhost:5000**
+> 
+> ✅ **Verify:** Visit http://localhost:5000/api/health - should return `{"success": true}`
 
 ### Step 3️⃣ Setup Frontend
 
 ```bash
-# Navigate to frontend folder (from root)
+# Open NEW terminal, navigate to frontend folder (from project root)
 cd frontend
 
 # Install dependencies
@@ -235,15 +255,19 @@ npm run dev
 
 > 🟢 Frontend runs at: **http://localhost:5173**
 
-### 🎉 Demo Accounts ( Tài khoản không đúng, dùng lệnh seed.js để tạo data demo )
+### 🎉 Demo Accounts
+
+> **Note:** These accounts are created by running `node seed.js` in the backend folder.
 
 <div align="center">
 
 | Role | Email | Password |
 |:---:|:---:|:---:|
-| 👑 **Admin** | `admin@petcare.com` | `admin123` |
-| 👨‍⚕️ **Staff** | `staff@petcare.com` | `staff123` |
-| 👤 **Customer** | `customer@example.com` | `customer123` |
+| 👑 **Admin** | `admin@petcare.com` | `123456` |
+| 👨‍⚕️ **Doctor 1** | `doctor1@petcare.com` | `123456` |
+| 👨‍⚕️ **Doctor 2** | `doctor2@petcare.com` | `123456` |
+| 👤 **Customer 1** | `customer1@gmail.com` | `123456` |
+| 👤 **Customer 2** | `customer2@gmail.com` | `123456` |
 
 </div>
 
@@ -460,10 +484,12 @@ pet-management-system/
 
 2. **Use MongoDB Atlas (Cloud - Recommended for beginners):**
    - Create free account at [mongodb.com/atlas](https://www.mongodb.com/atlas)
-   - Create a free cluster
+   - Create a free cluster (M0 - Free Forever)
+   - Add your IP to Network Access (or allow 0.0.0.0/0 for all)
+   - Create database user with password
    - Get connection string and update `.env`:
-   ```
-   MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/pet-management
+   ```env
+   MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/petcare?retryWrites=true&w=majority
    ```
 
 </details>
@@ -480,6 +506,11 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
+**Windows PowerShell users:** If `cp` doesn't work, use:
+```powershell
+Copy-Item .env.example .env
+```
+
 </details>
 
 <details>
@@ -490,6 +521,12 @@ cp .env.example .env
 **Solutions:**
 1. Delete `node_modules` and `package-lock.json`, then reinstall:
    ```bash
+   # Windows
+   rd /s /q node_modules
+   del package-lock.json
+   npm install
+   
+   # macOS/Linux
    rm -rf node_modules package-lock.json
    npm install
    ```
@@ -497,6 +534,82 @@ cp .env.example .env
    ```bash
    node --version
    ```
+3. Clear npm cache:
+   ```bash
+   npm cache clean --force
+   npm install
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ JWT Error / "Not authorized to access this route"</b></summary>
+
+**Problem:** Getting authentication errors after login
+
+**Solutions:**
+1. Make sure `JWT_SECRET` is set in `.env` file
+2. Clear browser localStorage and login again:
+   - Open DevTools (F12) → Application → Local Storage → Clear
+3. Verify the backend is running on correct port (5000)
+
+</details>
+
+<details>
+<summary><b>❌ CORS Error / Network Error</b></summary>
+
+**Problem:** Frontend can't connect to backend API
+
+**Solutions:**
+1. Make sure backend is running (`npm run dev` in backend folder)
+2. Check `FRONTEND_URL` in `.env` matches your frontend URL:
+   ```env
+   FRONTEND_URL=http://localhost:5173
+   ```
+3. Verify frontend proxy config in `vite.config.js`:
+   ```js
+   server: {
+     proxy: {
+       '/api': 'http://localhost:5000'
+     }
+   }
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ seed.js fails / Cannot read properties of undefined</b></summary>
+
+**Problem:** Seeding demo data fails
+
+**Solutions:**
+1. Make sure MongoDB is running and `.env` is configured correctly
+2. Check MONGODB_URI format (no special characters unescaped in password)
+3. If using MongoDB Atlas, make sure your IP is whitelisted
+4. Try running with verbose output:
+   ```bash
+   node --trace-warnings seed.js
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ Port already in use</b></summary>
+
+**Problem:** "Port 5000 is already in use" or "Port 5173 is already in use"
+
+**Solutions:**
+1. Kill the process using the port:
+   ```bash
+   # Windows
+   netstat -ano | findstr :5000
+   taskkill /PID <PID> /F
+   
+   # macOS/Linux
+   lsof -i :5000
+   kill -9 <PID>
+   ```
+2. Or change the port in `.env` (backend) or `vite.config.js` (frontend)
 
 </details>
 
@@ -657,7 +770,7 @@ cp .env.example .env
 | Phần mềm | Phiên bản | Tải về |
 |----------|-----------|--------|
 | Node.js | ≥ 18.0.0 | [nodejs.org](https://nodejs.org/) |
-| MongoDB | ≥ 6.0 | [mongodb.com](https://www.mongodb.com/try/download/community) |
+| MongoDB | ≥ 6.0 | [mongodb.com](https://www.mongodb.com/try/download/community) hoặc dùng [MongoDB Atlas](https://www.mongodb.com/atlas) (cloud miễn phí) |
 | Git | Mới nhất | [git-scm.com](https://git-scm.com/) |
 
 ### Bước 1️⃣ Clone Repository
@@ -676,27 +789,47 @@ cd backend
 # Cài đặt dependencies
 npm install
 
-# Tạo file environment
+# Tạo file environment (QUAN TRỌNG!)
 cp .env.example .env
+```
 
-# Chỉnh sửa .env với cấu hình của bạn:
-# MONGO_URI=mongodb://localhost:27017/petcare
-# JWT_SECRET=khoa_bi_mat_cua_ban
-# PORT=5000
+**⚠️ Cấu hình file `.env` với các thiết lập sau:**
 
-# Seed dữ liệu demo
+```env
+# Kết nối MongoDB (chọn một trong hai cách)
+# Cách 1: MongoDB cài local
+MONGODB_URI=mongodb://localhost:27017/petcare
+
+# Cách 2: MongoDB Atlas (khuyến nghị cho người mới)
+# MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/petcare
+
+# Cấu hình JWT
+JWT_SECRET=khoa_bi_mat_cua_ban_it_nhat_32_ky_tu
+JWT_EXPIRE=30d
+
+# Port Server
+PORT=5000
+
+# URL Frontend (cho CORS)
+FRONTEND_URL=http://localhost:5173
+```
+
+```bash
+# Seed dữ liệu demo (tạo users, products, pets mẫu...)
 node seed.js
 
-# Khởi động server (development)
+# Khởi động server (chế độ development với auto-reload)
 npm run dev
 ```
 
 > 🟢 Backend chạy tại: **http://localhost:5000**
+> 
+> ✅ **Kiểm tra:** Truy cập http://localhost:5000/api/health - phải trả về `{"success": true}`
 
 ### Bước 3️⃣ Cài Đặt Frontend
 
 ```bash
-# Di chuyển đến thư mục frontend (từ thư mục gốc)
+# Mở terminal MỚI, di chuyển đến thư mục frontend (từ thư mục gốc của project)
 cd frontend
 
 # Cài đặt dependencies
@@ -708,15 +841,19 @@ npm run dev
 
 > 🟢 Frontend chạy tại: **http://localhost:5173**
 
-### 🎉 Tài Khoản Demo ( Tài khoản này không đúng, hãy chạy seed.js để biết chính xác )
+### 🎉 Tài Khoản Demo
+
+> **Lưu ý:** Các tài khoản này được tạo khi chạy lệnh `node seed.js` trong thư mục backend.
 
 <div align="center">
 
 | Vai Trò | Email | Mật khẩu |
 |:---:|:---:|:---:|
-| 👑 **Admin** | `admin@petcare.com` | `admin123` |
-| 👨‍⚕️ **Nhân viên** | `staff@petcare.com` | `staff123` |
-| 👤 **Khách hàng** | `customer@example.com` | `customer123` |
+| 👑 **Admin** | `admin@petcare.com` | `123456` |
+| 👨‍⚕️ **Bác sĩ 1** | `doctor1@petcare.com` | `123456` |
+| 👨‍⚕️ **Bác sĩ 2** | `doctor2@petcare.com` | `123456` |
+| 👤 **Khách hàng 1** | `customer1@gmail.com` | `123456` |
+| 👤 **Khách hàng 2** | `customer2@gmail.com` | `123456` |
 
 </div>
 
@@ -933,10 +1070,12 @@ pet-management-system/
 
 2. **Sử dụng MongoDB Atlas (Cloud - Khuyến nghị cho người mới):**
    - Tạo tài khoản miễn phí tại [mongodb.com/atlas](https://www.mongodb.com/atlas)
-   - Tạo cluster miễn phí
+   - Tạo cluster miễn phí (M0 - Free Forever)
+   - Thêm IP của bạn vào Network Access (hoặc cho phép 0.0.0.0/0 cho tất cả)
+   - Tạo database user với password
    - Lấy connection string và cập nhật `.env`:
-   ```
-   MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/pet-management
+   ```env
+   MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/petcare?retryWrites=true&w=majority
    ```
 
 </details>
@@ -953,6 +1092,11 @@ cp .env.example .env
 # Chỉnh sửa .env theo cấu hình của bạn
 ```
 
+**Người dùng Windows PowerShell:** Nếu lệnh `cp` không hoạt động, dùng:
+```powershell
+Copy-Item .env.example .env
+```
+
 </details>
 
 <details>
@@ -963,6 +1107,12 @@ cp .env.example .env
 **Giải pháp:**
 1. Xóa `node_modules` và `package-lock.json`, sau đó cài lại:
    ```bash
+   # Windows
+   rd /s /q node_modules
+   del package-lock.json
+   npm install
+   
+   # macOS/Linux
    rm -rf node_modules package-lock.json
    npm install
    ```
@@ -970,6 +1120,82 @@ cp .env.example .env
    ```bash
    node --version
    ```
+3. Xóa npm cache:
+   ```bash
+   npm cache clean --force
+   npm install
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ Lỗi JWT / "Not authorized to access this route"</b></summary>
+
+**Vấn đề:** Gặp lỗi xác thực sau khi đăng nhập
+
+**Giải pháp:**
+1. Đảm bảo `JWT_SECRET` đã được thiết lập trong file `.env`
+2. Xóa localStorage của trình duyệt và đăng nhập lại:
+   - Mở DevTools (F12) → Application → Local Storage → Clear
+3. Kiểm tra backend đang chạy đúng port (5000)
+
+</details>
+
+<details>
+<summary><b>❌ Lỗi CORS / Network Error</b></summary>
+
+**Vấn đề:** Frontend không thể kết nối với backend API
+
+**Giải pháp:**
+1. Đảm bảo backend đang chạy (`npm run dev` trong thư mục backend)
+2. Kiểm tra `FRONTEND_URL` trong `.env` khớp với URL frontend:
+   ```env
+   FRONTEND_URL=http://localhost:5173
+   ```
+3. Kiểm tra cấu hình proxy frontend trong `vite.config.js`:
+   ```js
+   server: {
+     proxy: {
+       '/api': 'http://localhost:5000'
+     }
+   }
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ seed.js thất bại / Cannot read properties of undefined</b></summary>
+
+**Vấn đề:** Seed dữ liệu demo thất bại
+
+**Giải pháp:**
+1. Đảm bảo MongoDB đang chạy và `.env` đã cấu hình đúng
+2. Kiểm tra định dạng MONGODB_URI (không có ký tự đặc biệt chưa được escape trong password)
+3. Nếu dùng MongoDB Atlas, đảm bảo IP của bạn đã được whitelist
+4. Thử chạy với verbose output:
+   ```bash
+   node --trace-warnings seed.js
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ Port đã được sử dụng</b></summary>
+
+**Vấn đề:** "Port 5000 is already in use" hoặc "Port 5173 is already in use"
+
+**Giải pháp:**
+1. Tắt process đang dùng port:
+   ```bash
+   # Windows
+   netstat -ano | findstr :5000
+   taskkill /PID <PID> /F
+   
+   # macOS/Linux
+   lsof -i :5000
+   kill -9 <PID>
+   ```
+2. Hoặc thay đổi port trong `.env` (backend) hoặc `vite.config.js` (frontend)
 
 </details>
 
