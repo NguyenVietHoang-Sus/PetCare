@@ -235,7 +235,7 @@ npm run dev
 
 > 🟢 Frontend runs at: **http://localhost:5173**
 
-### 🎉 Demo Accounts
+### 🎉 Demo Accounts ( Tài khoản không đúng, dùng lệnh seed.js để tạo data demo )
 
 <div align="center">
 
