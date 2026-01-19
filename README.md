@@ -441,6 +441,73 @@ pet-management-system/
 
 ---
 
+<div align="center">
+
+## 🔧 Troubleshooting
+
+</div>
+
+<details>
+<summary><b>❌ MongoDB connection failed / ECONNREFUSED</b></summary>
+
+**Problem:** Backend fails to start with "MongoNetworkError" or "ECONNREFUSED"
+
+**Solutions:**
+
+1. **Install MongoDB locally:**
+   - Download from [mongodb.com](https://www.mongodb.com/try/download/community)
+   - Follow installation guide for your OS
+   - Start MongoDB service:
+     - Windows: `net start MongoDB` or run MongoDB Compass
+     - macOS: `brew services start mongodb-community`
+     - Linux: `sudo systemctl start mongod`
+
+2. **Use MongoDB Atlas (Cloud - Recommended for beginners):**
+   - Create free account at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+   - Create a free cluster
+   - Get connection string and update `.env`:
+   ```
+   MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/pet-management
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ .env file not found / Environment variables missing</b></summary>
+
+**Problem:** Backend can't find environment configuration
+
+**Solution:**
+```bash
+cd backend
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+</details>
+
+<details>
+<summary><b>❌ npm install fails</b></summary>
+
+**Problem:** Dependencies fail to install
+
+**Solutions:**
+1. Delete `node_modules` and `package-lock.json`, then reinstall:
+   ```bash
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+2. Check Node.js version (requires v18+):
+   ```bash
+   node --version
+   ```
+
+</details>
+
+<br/>
+
+---
+
 <br/>
 
 # 🇻🇳 Tiếng Việt
@@ -846,6 +913,73 @@ pet-management-system/
 ├── 📄 README.md                   # File này
 └── 📄 LICENSE                     # MIT License
 ```
+
+<br/>
+
+---
+
+<div align="center">
+
+## 🔧 Khắc Phục Sự Cố
+
+</div>
+
+<details>
+<summary><b>❌ Lỗi kết nối MongoDB / ECONNREFUSED</b></summary>
+
+**Vấn đề:** Backend không khởi động được với lỗi "MongoNetworkError" hoặc "ECONNREFUSED"
+
+**Giải pháp:**
+
+1. **Cài đặt MongoDB locally:**
+   - Tải từ [mongodb.com](https://www.mongodb.com/try/download/community)
+   - Làm theo hướng dẫn cài đặt cho hệ điều hành của bạn
+   - Khởi động MongoDB service:
+     - Windows: `net start MongoDB` hoặc chạy MongoDB Compass
+     - macOS: `brew services start mongodb-community`
+     - Linux: `sudo systemctl start mongod`
+
+2. **Sử dụng MongoDB Atlas (Cloud - Khuyến nghị cho người mới):**
+   - Tạo tài khoản miễn phí tại [mongodb.com/atlas](https://www.mongodb.com/atlas)
+   - Tạo cluster miễn phí
+   - Lấy connection string và cập nhật `.env`:
+   ```
+   MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/pet-management
+   ```
+
+</details>
+
+<details>
+<summary><b>❌ Không tìm thấy file .env / Thiếu biến môi trường</b></summary>
+
+**Vấn đề:** Backend không tìm thấy cấu hình môi trường
+
+**Giải pháp:**
+```bash
+cd backend
+cp .env.example .env
+# Chỉnh sửa .env theo cấu hình của bạn
+```
+
+</details>
+
+<details>
+<summary><b>❌ npm install thất bại</b></summary>
+
+**Vấn đề:** Không thể cài đặt dependencies
+
+**Giải pháp:**
+1. Xóa `node_modules` và `package-lock.json`, sau đó cài lại:
+   ```bash
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+2. Kiểm tra phiên bản Node.js (yêu cầu v18+):
+   ```bash
+   node --version
+   ```
+
+</details>
 
 <br/>
 
