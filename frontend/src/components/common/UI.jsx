@@ -97,10 +97,10 @@ export const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-dark-300/80 backdrop-blur-sm modal-overlay" onClick={onClose} />
-            <div className={`relative card-glass w-full ${sizes[size]} modal-content max-h-[90vh] overflow-y-auto`}>
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm modal-overlay" onClick={onClose} />
+            <div className={`relative w-full ${sizes[size]} bg-dark-200 border border-white/10 rounded-2xl shadow-2xl modal-content max-h-[90vh] overflow-y-auto`}>
                 {title && (
-                    <div className="sticky top-0 bg-dark-200/95 backdrop-blur-sm px-6 py-4 border-b border-white/10 flex justify-between items-center">
+                    <div className="sticky top-0 bg-dark-200 px-6 py-4 border-b border-white/10 flex justify-between items-center z-10">
                         <h2 className="text-xl font-semibold text-white">{title}</h2>
                         <button
                             onClick={onClose}
@@ -219,8 +219,8 @@ export const Tabs = ({ tabs, activeTab, onChange }) => (
                 key={tab.id}
                 onClick={() => onChange(tab.id)}
                 className={`flex-1 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 ${activeTab === tab.id
-                        ? 'bg-gradient-primary text-white shadow-glow-sm'
-                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    ? 'bg-gradient-primary text-white shadow-glow-sm'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
                     }`}
             >
                 {tab.icon && <span className="mr-2">{tab.icon}</span>}

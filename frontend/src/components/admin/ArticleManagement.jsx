@@ -5,6 +5,7 @@ import { useLanguage } from '../../i18n/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { newsAPI } from '../../services/api';
 import { Badge, Spinner, EmptyState } from '../common/UI';
+import ImageUpload from '../common/ImageUpload';
 import toast from 'react-hot-toast';
 
 const categories = [
@@ -268,19 +269,17 @@ const ArticleManagement = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-300 mb-2">
-                                    {language === 'en' ? 'Cover Image URL' : 'Link ảnh bìa'}
-                                </label>
-                                <input
-                                    type="url"
-                                    name="image"
-                                    value={formData.image}
-                                    onChange={handleChange}
-                                    className="input"
-                                    placeholder="https://..."
-                                />
-                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                                {language === 'en' ? 'Cover Image' : 'Ảnh bìa'}
+                            </label>
+                            <ImageUpload
+                                currentImage={formData.image}
+                                placeholder={language === 'en' ? 'Choose cover image' : 'Chọn ảnh bìa'}
+                                onImageSelect={(file, dataUrl) => setFormData(prev => ({ ...prev, image: dataUrl || '' }))}
+                            />
                         </div>
 
                         <div>

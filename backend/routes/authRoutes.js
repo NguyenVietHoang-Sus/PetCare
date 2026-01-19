@@ -7,7 +7,10 @@ const {
     updateProfile,
     getAllUsers,
     getStaff,
-    getDoctors
+    getDoctors,
+    createDoctor,
+    updateDoctor,
+    deleteDoctor
 } = require('../controllers/authController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
@@ -18,6 +21,8 @@ router.put('/profile', protect, updateProfile);
 router.get('/users', protect, authorize('admin'), getAllUsers);
 router.get('/staff', protect, getStaff);
 router.get('/doctors', getDoctors);
+router.post('/doctors', protect, authorize('admin'), createDoctor);
+router.put('/doctors/:id', protect, authorize('admin'), updateDoctor);
+router.delete('/doctors/:id', protect, authorize('admin'), deleteDoctor);
 
 module.exports = router;
-

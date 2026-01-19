@@ -3,6 +3,7 @@ import { FiPlus, FiEdit2, FiTrash2, FiX, FiSave, FiPackage, FiImage } from 'reac
 import { useLanguage } from '../../i18n/LanguageContext';
 import { productAPI } from '../../services/api';
 import { Badge, Spinner, EmptyState } from '../common/UI';
+import ImageUpload from '../common/ImageUpload';
 import toast from 'react-hot-toast';
 
 const categories = [
@@ -389,35 +390,36 @@ const ProductManagement = () => {
                             {/* Images */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                                    {language === 'en' ? 'Image URLs' : 'Link ảnh'}
+                                    {language === 'en' ? 'Product Images' : 'Ảnh sản phẩm'}
                                 </label>
-                                {formData.images.map((img, idx) => (
-                                    <div key={idx} className="flex gap-2 mb-2">
-                                        <input
-                                            type="url"
-                                            value={img}
-                                            onChange={(e) => handleImageChange(idx, e.target.value)}
-                                            placeholder="https://..."
-                                            className="input flex-1"
-                                        />
-                                        {formData.images.length > 1 && (
-                                            <button
-                                                type="button"
-                                                onClick={() => removeImageField(idx)}
-                                                className="p-2 text-red-400 hover:bg-red-500/20 rounded-lg"
-                                            >
-                                                <FiX />
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                                <button
-                                    type="button"
-                                    onClick={addImageField}
-                                    className="text-sm text-primary-400 hover:text-primary-300"
-                                >
-                                    + {language === 'en' ? 'Add more images' : 'Thêm ảnh'}
-                                </button>
+                                <div className="space-y-3">
+                                    {formData.images.map((img, idx) => (
+                                        <div key={idx} className="relative">
+                                            <ImageUpload
+                                                currentImage={img}
+                                                placeholder={language === 'en' ? 'Choose image' : 'Chọn ảnh'}
+                                                onImageSelect={(file, dataUrl) => handleImageChange(idx, dataUrl || '')}
+                                            />
+                                            {formData.images.length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeImageField(idx)}
+                                                    className="absolute top-2 right-2 p-2 text-red-400 bg-red-500/20 hover:bg-red-500/30 rounded-lg z-10"
+                                                >
+                                                    <FiX />
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                    <button
+                                        type="button"
+                                        onClick={addImageField}
+                                        className="text-sm text-primary-400 hover:text-primary-300 flex items-center"
+                                    >
+                                        <FiPlus className="mr-1" />
+                                        {language === 'en' ? 'Add more images' : 'Thêm ảnh'}
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Featured */}

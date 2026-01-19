@@ -10,6 +10,7 @@ import { appointmentAPI, orderAPI, authAPI } from '../services/api';
 import { Badge, Spinner, EmptyState } from '../components/common/UI';
 import ProductManagement from '../components/admin/ProductManagement';
 import ArticleManagement from '../components/admin/ArticleManagement';
+import DoctorManagement from '../components/admin/DoctorManagement';
 import toast from 'react-hot-toast';
 
 const AdminDashboard = () => {
@@ -588,56 +589,7 @@ const AdminDashboard = () => {
 
                 {activeTab === 'articles' && <ArticleManagement />}
 
-                {activeTab === 'doctors' && isAdmin && (
-                    <div className="animate-fade-in-up">
-                        <div className="card-glass overflow-hidden">
-                            <div className="p-6 border-b border-theme flex justify-between items-center">
-                                <h2 className="text-xl font-semibold text-theme">
-                                    {language === 'en' ? 'Doctor Management' : 'Quản lý Bác sĩ'}
-                                </h2>
-                                <button className="btn-primary">
-                                    + {language === 'en' ? 'Add Doctor' : 'Thêm Bác sĩ'}
-                                </button>
-                            </div>
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-                                {doctors.length === 0 ? (
-                                    <div className="col-span-full">
-                                        <EmptyState
-                                            icon={<span className="text-4xl">👨‍⚕️</span>}
-                                            title={language === 'en' ? 'No doctors found' : 'Chưa có bác sĩ'}
-                                            description={language === 'en' ? 'Add doctors to start managing staff' : 'Thêm bác sĩ để quản lý nhân viên'}
-                                        />
-                                    </div>
-                                ) : doctors.map((doctor) => (
-                                    <div key={doctor._id} className={`p-6 rounded-xl ${isDark ? 'bg-white/5 border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
-                                        <div className="flex items-center space-x-4 mb-4">
-                                            <div className="w-16 h-16 rounded-full bg-gradient-primary flex items-center justify-center">
-                                                <span className="text-2xl text-white font-bold">{doctor.name?.charAt(0)}</span>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-theme">{doctor.name}</h3>
-                                                <p className="text-sm text-theme-secondary">{doctor.specialization}</p>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2 text-sm">
-                                            <p className="text-theme-secondary">📧 {doctor.email}</p>
-                                            <p className="text-theme-secondary">📱 {doctor.phone}</p>
-                                            <p className="text-theme-secondary">⭐ {doctor.experience} {language === 'en' ? 'years experience' : 'năm kinh nghiệm'}</p>
-                                        </div>
-                                        <div className="mt-4 flex gap-2">
-                                            <button className="btn-ghost flex-1 text-sm py-2">
-                                                {language === 'en' ? 'Edit' : 'Sửa'}
-                                            </button>
-                                            <button className="btn-ghost flex-1 text-sm py-2 text-red-400 hover:text-red-300">
-                                                {language === 'en' ? 'Delete' : 'Xóa'}
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
+                {activeTab === 'doctors' && isAdmin && <DoctorManagement />}
             </div>
         </div>
     );

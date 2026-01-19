@@ -6,6 +6,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { authAPI, orderAPI, appointmentAPI } from '../services/api';
 import { Modal, Badge, EmptyState, Spinner } from '../components/common/UI';
+import ImageUpload from '../components/common/ImageUpload';
 import toast from 'react-hot-toast';
 
 const ProfilePage = () => {
@@ -194,14 +195,12 @@ const ProfilePage = () => {
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-300 mb-2">
-                                            {language === 'en' ? 'Avatar URL' : 'URL ảnh đại diện'}
+                                            {language === 'en' ? 'Avatar' : 'Ảnh đại diện'}
                                         </label>
-                                        <input
-                                            type="url"
-                                            value={editForm.avatar}
-                                            onChange={(e) => setEditForm({ ...editForm, avatar: e.target.value })}
-                                            className="input"
-                                            placeholder="https://example.com/avatar.jpg"
+                                        <ImageUpload
+                                            currentImage={editForm.avatar}
+                                            placeholder={language === 'en' ? 'Choose avatar' : 'Chọn ảnh'}
+                                            onImageSelect={(file, dataUrl) => setEditForm({ ...editForm, avatar: dataUrl || '' })}
                                         />
                                     </div>
                                     <div className="flex gap-3">
@@ -325,8 +324,8 @@ const ProfilePage = () => {
                                                             <div key={step} className="flex items-center flex-1">
                                                                 <div className="flex flex-col items-center">
                                                                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${idx <= currentStep
-                                                                            ? 'bg-gradient-primary text-white shadow-glow-sm'
-                                                                            : 'bg-theme-tertiary text-theme-muted'
+                                                                        ? 'bg-gradient-primary text-white shadow-glow-sm'
+                                                                        : 'bg-theme-tertiary text-theme-muted'
                                                                         }`}>
                                                                         {idx < currentStep ? '✓' : idx + 1}
                                                                     </div>

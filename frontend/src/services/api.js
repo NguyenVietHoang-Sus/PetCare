@@ -43,6 +43,9 @@ export const authAPI = {
     updateProfile: (data) => api.put('/auth/profile', data),
     getStaff: () => api.get('/auth/staff'),
     getDoctors: () => api.get('/auth/doctors'),
+    createDoctor: (data) => api.post('/auth/doctors', data),
+    updateDoctor: (id, data) => api.put(`/auth/doctors/${id}`, data),
+    deleteDoctor: (id) => api.delete(`/auth/doctors/${id}`),
 };
 
 export const petAPI = {

@@ -337,13 +337,13 @@ exports.getOrderStats = async (req, res) => {
             createdAt: { $gte: thisMonth }
         });
 
-        // Revenue calculations
+        // Revenue calculations - count orders that are paid OR delivered (completed orders)
         const todayRevenue = todayOrders
-            .filter(o => o.paymentStatus === 'paid')
+            .filter(o => o.paymentStatus === 'paid' || o.orderStatus === 'delivered')
             .reduce((sum, o) => sum + o.totalAmount, 0);
 
         const monthRevenue = monthOrders
-            .filter(o => o.paymentStatus === 'paid')
+            .filter(o => o.paymentStatus === 'paid' || o.orderStatus === 'delivered')
             .reduce((sum, o) => sum + o.totalAmount, 0);
 
         // Pending orders

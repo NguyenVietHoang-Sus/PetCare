@@ -6,6 +6,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { petAPI, appointmentAPI } from '../services/api';
 import { Modal, Badge, EmptyState, Spinner, FormInput, FormSelect, FormTextarea } from '../components/common/UI';
+import ImageUpload from '../components/common/ImageUpload';
 import toast from 'react-hot-toast';
 
 const speciesOptions = [
@@ -587,12 +588,16 @@ const MyPetsPage = () => {
                         />
                     </div>
 
-                    <FormInput
-                        label={language === 'en' ? 'Photo URL' : 'URL ảnh'}
-                        value={petForm.avatar}
-                        onChange={(e) => setPetForm({ ...petForm, avatar: e.target.value })}
-                        placeholder="https://example.com/pet.jpg"
-                    />
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                            {language === 'en' ? 'Pet Photo' : 'Ảnh thú cưng'}
+                        </label>
+                        <ImageUpload
+                            currentImage={petForm.avatar}
+                            placeholder={language === 'en' ? 'Choose photo' : 'Chọn ảnh'}
+                            onImageSelect={(file, dataUrl) => setPetForm({ ...petForm, avatar: dataUrl || '' })}
+                        />
+                    </div>
 
                     <div className="flex space-x-3 pt-4">
                         <button type="button" onClick={() => setShowAddModal(false)} className="btn-outline flex-1">
@@ -665,23 +670,16 @@ const MyPetsPage = () => {
                         />
                     </div>
 
-                    <FormInput
-                        label={language === 'en' ? 'Photo URL' : 'URL ảnh'}
-                        value={editPetForm.avatar}
-                        onChange={(e) => setEditPetForm({ ...editPetForm, avatar: e.target.value })}
-                        placeholder="https://example.com/pet.jpg"
-                    />
-
-                    {editPetForm.avatar && (
-                        <div className="flex justify-center">
-                            <img
-                                src={editPetForm.avatar}
-                                alt="Preview"
-                                className="w-24 h-24 rounded-xl object-cover"
-                                onError={(e) => { e.target.style.display = 'none'; }}
-                            />
-                        </div>
-                    )}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                            {language === 'en' ? 'Pet Photo' : 'Ảnh thú cưng'}
+                        </label>
+                        <ImageUpload
+                            currentImage={editPetForm.avatar}
+                            placeholder={language === 'en' ? 'Choose photo' : 'Chọn ảnh'}
+                            onImageSelect={(file, dataUrl) => setEditPetForm({ ...editPetForm, avatar: dataUrl || '' })}
+                        />
+                    </div>
 
                     <div className="flex space-x-3 pt-4">
                         <button type="button" onClick={() => setShowEditModal(false)} className="btn-outline flex-1">
